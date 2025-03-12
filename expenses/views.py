@@ -1,8 +1,11 @@
 from django.views.generic.list import ListView
 from django.utils.dateparse import parse_date
 from django.db import models
+from django.views.generic.edit import UpdateView
+from django.db.models import Count
+from django.urls import reverse_lazy
 
-from .forms import ExpenseSearchForm
+from .forms import ExpenseSearchForm, CategoryForm
 from .models import Expense, Category
 from .reports import summary_per_category, summary_per_month
 
@@ -57,3 +60,11 @@ class CategoryListView(ListView):
     model = Category
     paginate_by = 5
 
+    def get_queryset(self):
+        return Category.objects.annotate(expense_count=Count('expense'))
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'generic_update.html'
+    success_url = reverse_lazy('expenses:category-list')

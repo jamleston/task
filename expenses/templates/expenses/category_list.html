@@ -17,10 +17,24 @@
 				{{obj.name}}
 			</td>
 			<td>
+				<a href="{% url 'expenses:category-update' obj.id %}">edit</a>
 				<a href="{% url 'expenses:category-delete' obj.id %}">delete</a>
 			</td>
 		</tr>
 		{% endfor %}
 	</tbody>
+</table>
+<hr>
+<table border="1">
+	<tr>
+		<th>Category</th>
+		<th>Number of Expenses</th>
+	</tr>
+	{% for category in object_list %}
+	<tr>
+		<td>{{ category.name }}</td>
+		<td>{{ category.expense_count }}</td>
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}
