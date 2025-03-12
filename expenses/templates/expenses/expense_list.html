@@ -6,6 +6,13 @@
 
 <form method="get" action="">
   {{form.as_p}}
+
+  <label for="order">Order:</label>
+  <select name="order">
+	 <option value="asc" {% if order == "asc" %}selected{% endif %}>Ascending</option>
+	 <option value="desc" {% if order == "desc" %}selected{% endif %}>Descending</option>
+  </select>
+
   <button type="submit">search</button>
 </form>
 <br>
