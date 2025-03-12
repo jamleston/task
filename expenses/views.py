@@ -1,5 +1,6 @@
 from django.views.generic.list import ListView
 from django.utils.dateparse import parse_date
+from django.db import models
 
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
@@ -37,12 +38,15 @@ class ExpenseListView(ListView):
         elif sort_by == "date":
             queryset = queryset.order_by('date' if order == 'asc' else '-date')
 
+        total_spent = queryset.aggregate(total=models.Sum('amount'))['total'] or 0
+
         return super().get_context_data(
             form=form,  
             object_list=queryset,  
             summary_per_category=summary_per_category(queryset),  
             sort_by=sort_by,
             order=order,
+            total_spent=total_spent,
             **kwargs
         )
 
