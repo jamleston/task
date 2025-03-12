@@ -4,7 +4,7 @@ from django.db import models
 
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
-from .reports import summary_per_category
+from .reports import summary_per_category, summary_per_month
 
 
 class ExpenseListView(ListView):
@@ -40,10 +40,13 @@ class ExpenseListView(ListView):
 
         total_spent = queryset.aggregate(total=models.Sum('amount'))['total'] or 0
 
+        summary_per_month_data = summary_per_month(queryset)
+
         return super().get_context_data(
             form=form,  
             object_list=queryset,  
-            summary_per_category=summary_per_category(queryset),  
+            summary_per_category=summary_per_category(queryset), 
+            summary_per_month_data=summary_per_month_data, 
             sort_by=sort_by,
             order=order,
             total_spent=total_spent,

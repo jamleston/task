@@ -63,5 +63,19 @@
 	{% endfor %}
   </tr>
 </table>
-<p><strong>Total Amount Spent:</strong> {{ total_spent }}</p>
+<hr>
+<table border="1">
+	<caption>Summary per month</caption>
+	<tr>
+		<th>Month</th>
+		<th>Total Spent</th>
+	</tr>
+	{% for entry in summary_per_month_data %}
+	<tr>
+		<td>{{ entry.month|date:"M Y" }}</td>
+		<td>{{ entry.total_spent|floatformat:2 }}</td>
+	</tr>
+	{% endfor %}
+</table>
+<p><strong>Total Amount Spent:</strong> {{ total_spent|floatformat:2 }}</p>
 {% endblock %}
